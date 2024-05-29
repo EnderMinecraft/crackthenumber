@@ -1,0 +1,4 @@
+numpy==1.26.4
+pyinstaller==6.7.0
+pyinstaller-hooks-contrib==2024.6
+pywin32-ctypes==0.2.2
