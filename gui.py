@@ -8,6 +8,17 @@ p1 = ''
 p2 = ''
 mode = ""
 s = ''
+button1 =''
+def disconnect(ipentry, hostentry):
+    global s, l2, button1,connect_button
+    s.send("DISCNCT_REQ".encode())
+    s.close()
+    button1.destroy()
+    connect_button = ttk.Button(frame2, text="Connect", command= lambda:connect(ipentry, hostentry))
+    connect_button.pack(expand=True, pady=10)
+    l2.destroy()
+    l2 = Label(frame2, text = 'Not Connected!', foreground = '#FF0000')
+    l2.pack()
 def send(length, n0):
     global mode, p1, p2, s
     try:
@@ -29,7 +40,7 @@ def send(length, n0):
         s.send(str(p1).encode())
     guesskickstart()
 def connect(ipentry, portentry):
-    global s
+    global s,l2,button1,connect_button
     try: 
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
     except socket.error as err: 
@@ -38,7 +49,12 @@ def connect(ipentry, portentry):
     port = str(portentry.get())
     try:
         s.connect((ip, int(port)))
-        #tk label here
+        l2.destroy()
+        connect_button.destroy()
+        button1 = ttk.Button(frame2, text="Disconnect", command= lambda:disconnect(ipentry, hostentry))
+        button1.pack(expand=True, pady=10)
+        l2 = Label(frame2, text = 'Connected', foreground = '#006800')
+        l2.pack()
     except socket.error as err:
         tkinter.messagebox.showerror(title="Error when connecting", message="Connection failed with error %s" %(err))
 def logic(inp1, inp2):
@@ -69,7 +85,7 @@ root.geometry('300x250')
 root.title("Crack the number!")
 root.resizable(False, False)
 version = 'v0.1'
-l = Label(root, text = 'CRACK THE NUMBER {version}')
+l = Label(root, text = 'CRACK THE NUMBER %s' %(version))
 l.pack()
 notebook = ttk.Notebook(root)
 notebook.pack(pady=10, expand=False)
@@ -92,6 +108,8 @@ hostentry = ttk.Entry(frame2 , justify= 'center')
 hostentry.pack()
 connect_button = ttk.Button(frame2, text="Connect", command= lambda:connect(ipentry, hostentry))
 connect_button.pack(expand=True, pady=10)
+l2 = Label(frame2, text = 'Not Connected!', foreground = '#FF0000')
+l2.pack()
 frame2.pack(fill='both', expand=True)
 notebook.add(frame1, text='Game options')
 notebook.add(frame2, text='Server connection')

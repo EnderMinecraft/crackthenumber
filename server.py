@@ -19,17 +19,20 @@ class Client(threading.Thread):
     def run(self):
         while self.signal:
             try:
-                data = self.socket.recv(4096)
+                data = self.socket.recv(1024)
             except:
-                print("Client " + str(self.address) + " has been disconnected." + "\n")
+                print("Client " + str(self.address) + " has been disconnected.")
                 self.signal = False
                 connections.remove(self)
                 break
-            if data != "":
-                print("[Client " + str(self.id) + "] " + str(data.decode("utf-8")) + "\n")
-                for client in connections:
-                    if client.id != self.id:
-                        client.socket.sendall(data)
+            if data.decode("utf-8") == "DISCNCT_REQ":
+                print("Client " + str(self.address) + " has been disconnected.")
+                self.signal = False
+                break
+            print("[Client " + str(self.id) + "]" + str(data.decode("utf-8")))
+            for client in connections:
+                if client.id != self.id:
+                    client.socket.sendall(data)
 
 # wait for new connections
 def newConnections(socket):
@@ -38,7 +41,7 @@ def newConnections(socket):
         global total_connections
         connections.append(Client(sock, address, total_connections, "Name", True))
         connections[len(connections) - 1].start()
-        print("Client " + str(connections[len(connections) - 1]) + " is connected. " + "\n")
+        print("Client " + str(connections[len(connections) - 1]) + " is connected." )
         total_connections += 1
 
 def main():
