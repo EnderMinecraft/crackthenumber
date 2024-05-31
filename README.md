@@ -9,7 +9,7 @@ Consist of latest features
 # client.py (deprecated)
 This is legacy version of the game
 
-#Compare 2 versions
+# Compare 2 versions
 | | gui.py | client.py |
 | ------------- | ------------- | ------------- |
 | GUI | ✅  | ❎ |
@@ -19,13 +19,13 @@ This is legacy version of the game
 | Better error handling | ✅  | ❎ |
 | Overrall stability | ❎  | ✅ |
 
-#server.py
+# server.py
 
 This is server back-end of the game
 
 Must be ran in order to play online mode
 
-#Credits
+# Credits
 
 server backend based on https://github.com/protodevsystems/python-client-server-send-data-using-socket/
 
