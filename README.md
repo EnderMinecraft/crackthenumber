@@ -9,7 +9,7 @@ Consist of latest features
 # client.py (deprecated)
 This is legacy version of the game
 
-# Compare 2 versions
+# Differences between gui.py and client.py
 | | gui.py | client.py |
 | ------------- | ------------- | ------------- |
 | GUI | ✅  | ❎ |
