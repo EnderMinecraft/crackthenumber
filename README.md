@@ -20,11 +20,12 @@ This is legacy version of the game
 | Overrall stability | ❎  | ✅ |
 
 #server.py
+
 This is server back-end of the game
 
 Must be ran in order to play online mode
 
-#Credits:
+#Credits
 
 server backend based on https://github.com/protodevsystems/python-client-server-send-data-using-socket/
 
