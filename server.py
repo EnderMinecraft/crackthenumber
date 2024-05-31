@@ -29,10 +29,11 @@ class Client(threading.Thread):
                 print("Client " + str(self.address) + " has been disconnected.")
                 self.signal = False
                 break
-            print("[Client " + str(self.id) + "]" + str(data.decode("utf-8")))
-            for client in connections:
-                if client.id != self.id:
-                    client.socket.sendall(data)
+            elif data != "" or data.decode("utf-8") != "":
+                print("[Client " + str(self.id) + "]" + str(data.decode("utf-8")))
+                for client in connections:
+                    if client.id != self.id:
+                        client.socket.sendall(data)
 
 # wait for new connections
 def newConnections(socket):

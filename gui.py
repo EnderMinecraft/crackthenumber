@@ -1,9 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import *
-import tkinter.messagebox,  threading, numpy, socket, ctypes
+import tkinter.messagebox,  threading, numpy, socket, ctypes, sys
 from random import randint
-from os import system, name
+from os import system, name, path, execv
+from sys import exit
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 p1 = ''
 p2 = ''
@@ -11,6 +12,28 @@ mode = ""
 s = ''
 button1 =''
 val = 0
+def restart_main():
+    # Restart the application...
+    executable = sys.executable
+    executable_filename = path.split(executable)[1]
+    if executable_filename.lower().startswith('python'):
+        # application is running within a python interpreter
+        python = executable
+        execv(python, [python, ] + sys.argv)
+        pass
+    else:
+        # application is running as a standalone executable
+        execv(executable, sys.argv)
+        pass
+    pass
+def proper_close() :
+    global s
+    try:
+        s.send("DISCNCT_REQ".encode())
+        s.close()
+        root.destroy()
+    except:
+        exit(0)
 def randoml(n):
     range_start = 10**(n-1)
     range_end = (10**n)-1
@@ -73,11 +96,15 @@ def logic(inp1, inp2):
     global length
     np1 = numpy.array(list(str(inp1)))
     np2 = numpy.array(list(str(inp2)))
-    correctarr = np1 == np2
-    ret = correctarr.sum()
-    print(f"{inp1}({ret})")
-    if ret == mode:
-        print('u win!')
+    try:
+        correctarr = np1 == np2
+        ret = correctarr.sum()
+        print(f"{inp1}({ret})")
+        if ret == mode:
+            print('u win!')
+    except ValueError as err:
+        tkinter.messagebox.showerror(title="Crashed!", message="Crashed with error:\n%s\nPress OK to restart" %(err))
+        restart_main()
 def guesskickstart():
     root.destroy()
     if name == 'nt':
@@ -107,8 +134,14 @@ def check_status():
     global val
     if check_var.get() == 0:
         val = 0
+        ipentry.config(state= "enabled")
+        hostentry.config(state= "enabled")
+        connect_button.config(state= "enabled")
     else:
         val = 1
+        ipentry.config(state= "disabled")
+        hostentry.config(state= "disabled")
+        connect_button.config(state= "disabled")
 notebook = ttk.Notebook(root)
 notebook.pack(pady=10, expand=False)
 frame1 = ttk.Frame(notebook, width=550, height=425)
@@ -137,4 +170,5 @@ l2.pack()
 frame2.pack(fill='both', expand=True)
 notebook.add(frame1, text='Game options')
 notebook.add(frame2, text='Server connection')
+root.protocol('WM_DELETE_WINDOW', proper_close)
 root.mainloop()
