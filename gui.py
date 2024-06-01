@@ -53,8 +53,10 @@ def send(length, n0):
     try:
         mode = int(length.get())
         p1 = int(n0.get())
+        p1 = str(n0.get())
     except ValueError:
         tkinter.messagebox.showerror(title="Error", message="Error when verify input.Perhaps you have a typo?")
+        return 1
     if len(str(n0.get())) == int(length.get()):
         pass
     else:
@@ -80,6 +82,7 @@ def connect(ipentry, portentry):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
     except socket.error as err: 
         tkinter.messagebox.showerror(title="Error when creating socket", message="socket creation failed with error %s" %(err))
+        return 0
     ip = str(ipentry.get())
     port = str(portentry.get())
     try:
@@ -105,6 +108,7 @@ def logic(inp1, inp2):
     except ValueError as err:
         tkinter.messagebox.showerror(title="Crashed!", message="Crashed with error:\n%s\nPress OK to restart" %(err))
         restart_main()
+        
 def guesskickstart():
     root.destroy()
     if name == 'nt':
