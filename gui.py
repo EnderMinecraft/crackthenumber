@@ -109,6 +109,8 @@ def logic(inp1, inp2):
         print(f"{inp1}({ret})")
         if ret == mode:
             print('u win!')
+            input("press enter to exit")
+            exit(0)
     except ValueError as err:
         tkinter.messagebox.showerror(title="Crashed!", message="Crashed with error:\n%s\nPress OK to restart" %(err))
         restart_main()       
