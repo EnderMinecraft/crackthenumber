@@ -14,7 +14,7 @@ mode = ""
 s = ''
 button1 =''
 val = 0
-version = 'v0.1'
+version = 'v0.1.1'
 #define funcions
 def restart_main():
     # Restart the application...
