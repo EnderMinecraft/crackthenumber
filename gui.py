@@ -1,17 +1,21 @@
+#import necessary libs
 import tkinter as tk
 from tkinter import ttk
 from tkinter import *
-import tkinter.messagebox,  threading, numpy, socket, ctypes, sys
+import tkinter.messagebox, numpy, socket, ctypes, sys
 from random import randint
 from os import system, name, path, execv
 from sys import exit
-ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
+ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0) #hide console window
+#define variables
 p1 = ''
 p2 = ''
 mode = ""
 s = ''
 button1 =''
 val = 0
+version = 'v0.1'
+#define funcions
 def restart_main():
     # Restart the application...
     executable = sys.executable
@@ -32,7 +36,7 @@ def proper_close() :
         s.send("DISCNCT_REQ".encode())
         s.close()
         root.destroy()
-    except:
+    except AttributeError:
         exit(0)
 def randoml(n):
     range_start = 10**(n-1)
@@ -67,7 +71,7 @@ def send(length, n0):
         else:
             pass
     except:
-        tkinter.messagebox.showerror(message="Seem like you havent connect to any server yet.\nSwitch to 'Server connection' tab to connect.")
+        tkinter.messagebox.showerror(message="Seem like that you havent connect to any server yet.\nSwitch to 'Server connection' tab to connect.")
         return 0
     if val == 0:
         while p2 == '':
@@ -81,7 +85,7 @@ def connect(ipentry, portentry):
     try: 
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
     except socket.error as err: 
-        tkinter.messagebox.showerror(title="Error when creating socket", message="socket creation failed with error %s" %(err))
+        tkinter.messagebox.showerror(title="Error when creating socket", message="Socket creation failed with error %s" %(err))
         return 0
     ip = str(ipentry.get())
     port = str(portentry.get())
@@ -107,8 +111,7 @@ def logic(inp1, inp2):
             print('u win!')
     except ValueError as err:
         tkinter.messagebox.showerror(title="Crashed!", message="Crashed with error:\n%s\nPress OK to restart" %(err))
-        restart_main()
-        
+        restart_main()       
 def guesskickstart():
     root.destroy()
     if name == 'nt':
@@ -126,14 +129,6 @@ def guess():
         guess()
     logic(x, p2)
     guess()
-root = tkinter.Tk()
-root.geometry('300x250')
-root.title("Crack the number!")
-root.resizable(False, False)
-version = 'v0.1'
-l = Label(root, text = 'CRACK THE NUMBER %s' %(version))
-l.pack()
-check_var = tk.IntVar()
 def check_status():
     global val
     if check_var.get() == 0:
@@ -146,6 +141,13 @@ def check_status():
         ipentry.config(state= "disabled")
         hostentry.config(state= "disabled")
         connect_button.config(state= "disabled")
+#ui
+root = tkinter.Tk()
+root.geometry('300x250')
+root.title("Crack the number!")
+root.resizable(False, False)
+Label(root, text = 'CRACK THE NUMBER %s' %(version)).pack()
+check_var = tk.IntVar()
 notebook = ttk.Notebook(root)
 notebook.pack(pady=10, expand=False)
 frame1 = ttk.Frame(notebook, width=550, height=425)
